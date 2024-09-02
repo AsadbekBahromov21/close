@@ -12,16 +12,23 @@ const Blogs = ({ data }) => {
       <p className="text-[14px] text-[#0005]">{blog.desc}</p>
     </div>
   ));
-
+  const handleCreate = () => {
+    let blog = {
+      title: values,
+      desc: values,
+      phone: values,
+    };
+    axios.post("/blogs", blog);
+  };
   return (
     <div className="container mx-auto mt-8 mb-10">
       <Button onClick={() => setShow(true)} className="mb-6">
         close
       </Button>
-      <div className="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1">
+      <div className="grid gap-4 lg:grid-cols-5 md:grid-cols-3 sm:grid-cols-2 grid-cols-1">
         {items}
       </div>
-      <Close show={show} setShow={setShow} />
+      <Close show={show} setShow={setShow} handleCreate={handleCreate} />
     </div>
   );
 };

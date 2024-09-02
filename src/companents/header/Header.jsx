@@ -11,7 +11,7 @@ import { Link, NavLink } from "react-router-dom";
 const Header = () => {
   // const cart = useSelector((state) => state.cart);
   // const wishlist = useSelector((state) => state.wishlist);
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -73,12 +73,12 @@ const Header = () => {
                   Cart
                 </NavLink>
               </div>
-              {/* <button
-                onClick={() => dispatch({ type: "LOGOUT", payload: cart })}
+              <button
+                onClick={() => dispatch({ type: "LOGOUT" })}
                 className="border-none outline-none text-[14px] font-[700] text-[#253D4E] pl-2"
               >
                 LOGOUT
-              </button> */}
+              </button>
             </div>
           </div>
           <div onClick={toggleMenu} className="navbar__menu">

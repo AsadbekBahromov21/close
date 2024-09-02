@@ -16,6 +16,14 @@ export const Close = ({ show, setShow }) => {
         console.log(res);
       });
   };
+  const handleCreate = () => {
+    let blog = {
+      title: values,
+      desc: values,
+      phone: values,
+    };
+    axios.post("/blogs", blog);
+  };
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
   };
@@ -45,7 +53,7 @@ export const Close = ({ show, setShow }) => {
             </Button>
             <Form.Item
               label="Title"
-              name="fname"
+              name="title"
               rules={[
                 {
                   required: true,
@@ -57,7 +65,7 @@ export const Close = ({ show, setShow }) => {
             </Form.Item>
             <Form.Item
               label="Desc"
-              name="phone"
+              name="desc"
               rules={[
                 {
                   required: true,
@@ -81,7 +89,12 @@ export const Close = ({ show, setShow }) => {
             </Form.Item>
 
             <Form.Item>
-              <Button className="w-full" type="primary" htmlType="submit">
+              <Button
+                onClick={handleCreate}
+                className="w-full"
+                type="primary"
+                htmlType="submit"
+              >
                 Sin up
               </Button>
             </Form.Item>
