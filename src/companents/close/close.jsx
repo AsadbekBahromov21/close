@@ -1,10 +1,12 @@
-import React from "react";
 import axios from "../../api/index";
 import { AiOutlineClose } from "react-icons/ai";
 import { Button, Form, Input } from "antd";
 import Model from "../../pages/model/model";
 import { useState } from "react";
-export const Close = ({ show, setShow }) => {
+import { useFetch } from "../hooks/useFetch";
+export const Close = ({ show, setShow, handleCreate }) => {
+  const [reload, setReload] = useState(false);
+  const {} = useFetch("/blogs", { limit: 8 }, [reload]);
   const handleLogin = (values) => {
     axios
       .post("/sign-up", values)
@@ -16,14 +18,7 @@ export const Close = ({ show, setShow }) => {
         console.log(res);
       });
   };
-  const handleCreate = () => {
-    let blog = {
-      title: values,
-      desc: values,
-      phone: values,
-    };
-    axios.post("/blogs", blog);
-  };
+
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
   };
@@ -38,7 +33,7 @@ export const Close = ({ show, setShow }) => {
             initialValues={{
               remember: true,
             }}
-            onFinish={handleLogin}
+            onFinish={handleCreate}
             onFinishFailed={onFinishFailed}
             autoComplete="off"
           >
@@ -75,26 +70,9 @@ export const Close = ({ show, setShow }) => {
             >
               <Input />
             </Form.Item>
-            <Form.Item
-              label="Phone"
-              name="phone"
-              rules={[
-                {
-                  required: true,
-                  message: "Ism kiriting!",
-                },
-              ]}
-            >
-              <Input />
-            </Form.Item>
 
             <Form.Item>
-              <Button
-                onClick={handleCreate}
-                className="w-full"
-                type="primary"
-                htmlType="submit"
-              >
+              <Button className="w-full" type="primary" htmlType="submit">
                 Sin up
               </Button>
             </Form.Item>
