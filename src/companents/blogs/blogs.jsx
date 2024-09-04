@@ -7,14 +7,14 @@ import axios from "../../api/index";
 
 const Blogs = ({ data }) => {
   const [blogs, setBlogs] = useState(null);
-  const [blog, setBlog] = useState(false);
+  const [reload, setReload] = useState(false);
   useEffect(() => {
     setBlogs(data);
-  }, [data]);
+  }, [data, reload]);
   const [show, setShow] = useState(false);
   const handlDelete = (id) => {
     axios.delete(`/blogs/${id}`).then((res) => {
-      setBlog((p) => !p);
+      setReload((p) => !p);
     });
   };
   let items = blogs?.map((blog) => (
