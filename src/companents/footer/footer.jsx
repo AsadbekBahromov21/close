@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import { IoLocationOutline } from "react-icons/io5";
 import { FaHeadphonesAlt } from "react-icons/fa";
 import { FaTelegramPlane } from "react-icons/fa";
@@ -126,4 +126,4 @@ const Footer = () => {
   );
 };
 
-export default Footer;
+export default memo(Footer);

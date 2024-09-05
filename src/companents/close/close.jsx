@@ -2,11 +2,11 @@ import axios from "../../api/index";
 import { AiOutlineClose } from "react-icons/ai";
 import { Button, Form, Input } from "antd";
 import Model from "../../pages/model/model";
-import { useState } from "react";
+import { memo, useState } from "react";
 import { useFetch } from "../hooks/useFetch";
 export const Close = ({ show, setShow, handleCreate }) => {
   const [reload, setReload] = useState(false);
-  const {} = useFetch("/blogs", { limit: 8 }, [reload]);
+  const {} = useFetch("/blogs", { limit: 10 }, [reload]);
   const handleLogin = (values) => {
     axios
       .post("/sign-up", values)
@@ -82,3 +82,4 @@ export const Close = ({ show, setShow, handleCreate }) => {
     </div>
   );
 };
+export default memo(Close);

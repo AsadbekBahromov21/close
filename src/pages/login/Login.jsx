@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { memo, useState } from "react";
 import { Button, Form, Input, message } from "antd";
 import axios from "../../api/index";
 import { useNavigate } from "react-router-dom";
@@ -90,4 +90,4 @@ const Login = () => {
     </div>
   );
 };
-export default Login;
+export default memo(Login);

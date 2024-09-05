@@ -2,6 +2,7 @@ import Model from "../../pages/model/model";
 import { Button, Form, Input, message } from "antd";
 import axios from "../../api/index";
 import { AiOutlineClose } from "react-icons/ai";
+import { memo } from "react";
 const Regester = ({ show, setShow }) => {
   const [messageApi, contextHolder] = message.useMessage();
   const handleLogin = (values) => {
@@ -109,4 +110,4 @@ const Regester = ({ show, setShow }) => {
   );
 };
 
-export default Regester;
+export default memo(Regester);

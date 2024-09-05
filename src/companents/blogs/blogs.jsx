@@ -1,9 +1,10 @@
 import { Button } from "antd";
 
-import React, { useEffect, useState } from "react";
+import React, { memo, useEffect, useState } from "react";
 import { Close } from "../close/close";
 import axios from "../../api/index";
 import { useDispatch, useSelector } from "react-redux";
+import { useFetch } from "../hooks/useFetch";
 
 const Blogs = ({ data }) => {
   const [blogs, setBlogs] = useState(null);
@@ -15,7 +16,7 @@ const Blogs = ({ data }) => {
     axios.get("/admin/profile").then((res) => {
       dispatch({ type: "SET_PROFILE", payload: res.data.payload });
     });
-  }, [profile]);
+  }, []);
   useEffect(() => {
     setBlogs(data);
   }, [data, reload]);
@@ -25,19 +26,27 @@ const Blogs = ({ data }) => {
   const [show, setShow] = useState(false);
   const handlDelete = (id) => {
     setReload((p) => !p);
-    axios.delete(`/blogs/${id}`).then((res) => {});
+    axios.delete(`/blogs/${id}`).then((res) => {
+      axios.get("/blogs").then((res) => {
+        setBlogs(res.data.payload);
+      });
+    });
   };
   let items = blogs?.map((blog) => (
     <div key={blog._id} className="w-[200px] bg-[#0009] border p-4 relative">
-      <button className="rounded-[50%] py-[4px] px-3 bg-[#0004] text-[#fff] flex justify-center items-center absolute top-[4px] right-[6px]">
-        {blog.userId.fname}
-      </button>
       <h3 className="text-[18px] font-[500] text-[#fff] mt-[8px]">
         {blog.title}
       </h3>
       <p className="text-[14px] mb-3  text-[#ddd]">{blog.desc}</p>
+      <p className=" text-[13px] py-[4px] px-3 bg-[#0004] text-[#fff] flex justify-center items-center mb-2 ">
+        {blog.userId.fname}
+      </p>
       {profile?._id === blog.userId._id && (
-        <Button type="primary" onClick={() => handlDelete(blog._id)}>
+        <Button
+          className="text-[12px]"
+          type="primary"
+          onClick={() => handlDelete(blog._id)}
+        >
           delete
         </Button>
       )}
@@ -52,7 +61,10 @@ const Blogs = ({ data }) => {
       .post("/blogs", blog)
 
       .then((res) => {
-        setBlogs([...blogs, res.data.payload]);
+        axios.get("/blogs").then((res) => {
+          setBlogs(res.data.payload);
+        });
+        setShow(false);
       });
   };
   return (
@@ -69,4 +81,4 @@ const Blogs = ({ data }) => {
   );
 };
 
-export default Blogs;
+export default memo(Blogs);

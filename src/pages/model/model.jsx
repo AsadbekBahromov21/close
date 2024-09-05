@@ -1,5 +1,5 @@
 import { Button, Input } from "antd";
-import React from "react";
+import React, { memo } from "react";
 import { AiOutlineClose } from "react-icons/ai";
 const Model = ({ close, children }) => {
   return (
@@ -15,4 +15,4 @@ const Model = ({ close, children }) => {
   );
 };
 
-export default Model;
+export default memo(Model);

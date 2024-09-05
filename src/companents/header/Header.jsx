@@ -1,18 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { memo, useEffect, useState } from "react";
 import "./header.css";
 import { useDispatch, useSelector } from "react-redux";
 import { CiLocationOn } from "react-icons/ci";
 import { CiHeart } from "react-icons/ci";
 import { IoCartOutline } from "react-icons/io5";
-import { IoPersonOutline } from "react-icons/io5";
 import { RiMenu2Fill } from "react-icons/ri";
 import { Link, NavLink } from "react-router-dom";
-import { useFetch } from "../hooks/useFetch";
 import axios from "../../api/index";
-import { data } from "autoprefixer";
 const Header = () => {
-  // const cart = useSelector((state) => state.cart);
-  // const wishlist = useSelector((state) => state.wishlist);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -59,7 +54,6 @@ const Header = () => {
             <div className="flex items-center gap-4 navbar navbar__collection">
               <div className="flex items-center gap-1">
                 <CiHeart className="text-[24px] " />
-                {/* <sup>{wishlist.length}</sup> */}
                 <NavLink
                   className={
                     "text-[16px] font-[400] text-[#fff] lg:text-[#7e7e7e] "
@@ -71,7 +65,6 @@ const Header = () => {
               </div>
               <div className="flex items-center gap-1 navbar__collection">
                 <IoCartOutline className="text-[24px] " />
-                {/* <sup>{cart.length}</sup> */}
                 <NavLink
                   className={
                     "text-[16px] font-[400] text-[#fff] lg:text-[#7e7e7e] "
@@ -98,4 +91,4 @@ const Header = () => {
   );
 };
 
-export default Header;
+export default memo(Header);
