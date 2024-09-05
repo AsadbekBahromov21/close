@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./header.css";
 import { useDispatch, useSelector } from "react-redux";
 import { CiLocationOn } from "react-icons/ci";
@@ -7,11 +7,19 @@ import { IoCartOutline } from "react-icons/io5";
 import { IoPersonOutline } from "react-icons/io5";
 import { RiMenu2Fill } from "react-icons/ri";
 import { Link, NavLink } from "react-router-dom";
-
+import { useFetch } from "../hooks/useFetch";
+import axios from "../../api/index";
+import { data } from "autoprefixer";
 const Header = () => {
   // const cart = useSelector((state) => state.cart);
   // const wishlist = useSelector((state) => state.wishlist);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    axios.get("/admin/profile").then((res) => {
+      dispatch({ type: "SET_PROFILE", payload: res.data.payload });
+    });
+  }, []);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
