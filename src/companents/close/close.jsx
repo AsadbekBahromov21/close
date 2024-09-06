@@ -9,7 +9,10 @@ export const Close = ({ show, setShow, handleCreate }) => {
   const {} = useFetch("/blogs", { limit: 10 }, [reload]);
   const handleLogin = (values) => {
     axios
-      .post("/sign-up", values)
+      .post("/sign-up", {
+        title: values.title1,
+        desc: values.desc1,
+      })
       .then((res) => {
         setShow(false);
         console.log(res);
@@ -28,7 +31,7 @@ export const Close = ({ show, setShow, handleCreate }) => {
         <Model close={() => setShow(false)}>
           <Form
             className=""
-            name="register"
+            name="dd"
             layout="vertical"
             initialValues={{
               remember: true,
@@ -48,7 +51,7 @@ export const Close = ({ show, setShow, handleCreate }) => {
             </Button>
             <Form.Item
               label="Title"
-              name="title"
+              name="title1"
               rules={[
                 {
                   required: true,
@@ -60,7 +63,7 @@ export const Close = ({ show, setShow, handleCreate }) => {
             </Form.Item>
             <Form.Item
               label="Desc"
-              name="desc"
+              name="desc1"
               rules={[
                 {
                   required: true,

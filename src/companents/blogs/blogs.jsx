@@ -1,14 +1,17 @@
-import { Button } from "antd";
-
+import { Button, Form, Input } from "antd";
 import React, { memo, useEffect, useState } from "react";
 import { Close } from "../close/close";
 import axios from "../../api/index";
 import { useDispatch, useSelector } from "react-redux";
+import { MdEdit } from "react-icons/md";
 import { useFetch } from "../hooks/useFetch";
+import Model from "../../pages/model/model";
+import { AiOutlineClose } from "react-icons/ai";
 
 const Blogs = ({ data }) => {
   const [blogs, setBlogs] = useState(null);
   const [reload, setReload] = useState(false);
+
   const dispatch = useDispatch();
   const profile = useSelector((state) => state.profile);
   // console.log(profile);
@@ -24,10 +27,19 @@ const Blogs = ({ data }) => {
   console.log(data);
 
   const [show, setShow] = useState(false);
+  const [show2, setShow2] = useState(false);
   const handlDelete = (id) => {
     setReload((p) => !p);
     axios.delete(`/blogs/${id}`).then((res) => {
       axios.get("/blogs").then((res) => {
+        setBlogs(res.data.payload);
+      });
+    });
+  };
+  const hanApdet = (id, values) => {
+    axios.patch(`/blogs/${id}`, values).then((res) => {
+      axios.get("/blogs").then((res) => {
+        setShow2(false);
         setBlogs(res.data.payload);
       });
     });
@@ -41,6 +53,64 @@ const Blogs = ({ data }) => {
       <p className=" text-[13px] py-[4px] px-3 bg-[#0004] text-[#fff] flex justify-center items-center mb-2 ">
         {blog.userId.fname}
       </p>
+      <button onClick={() => setShow2(true)}>
+        <MdEdit />
+      </button>
+      {show2 && (
+        <Model close={() => setShow2(false)}>
+          <Form
+            className=""
+            name="edit"
+            layout="vertical"
+            initialValues={{
+              remember: true,
+            }}
+            onFinish={(values) => hanApdet(blog._id, values)}
+            onFinishFailed={() => {}}
+            autoComplete="off"
+          >
+            <h2 className="text-[20px] font-[600] text-zinc-700 text-center">
+              Ma'lumot qo'shish!
+            </h2>
+            <Button
+              onClick={() => setShow2(false)}
+              className="border-none absolute top-0 right-0 "
+            >
+              <AiOutlineClose />
+            </Button>
+            <Form.Item
+              label="Title"
+              name="title"
+              rules={[
+                {
+                  required: true,
+                  message: "Ism kiriting!",
+                },
+              ]}
+            >
+              <Input />
+            </Form.Item>
+            <Form.Item
+              label="Desc"
+              name="desc"
+              rules={[
+                {
+                  required: true,
+                  message: "Ism kiriting!",
+                },
+              ]}
+            >
+              <Input />
+            </Form.Item>
+
+            <Form.Item>
+              <Button className="w-full" type="primary" htmlType="submit">
+                Sin up
+              </Button>
+            </Form.Item>
+          </Form>
+        </Model>
+      )}
       {profile?._id === blog.userId._id && (
         <Button
           className="text-[12px]"
@@ -52,7 +122,7 @@ const Blogs = ({ data }) => {
       )}
     </div>
   ));
-  const handleCreate = (values) => {
+  function handleCreate(values) {
     let blog = {
       title: values.title,
       desc: values.desc,
@@ -66,7 +136,7 @@ const Blogs = ({ data }) => {
         });
         setShow(false);
       });
-  };
+  }
   return (
     <div className="container mx-auto mt-8 mb-10">
       <Button onClick={() => setShow(true)} className="mb-6">
